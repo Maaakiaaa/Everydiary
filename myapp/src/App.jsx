@@ -91,14 +91,10 @@ function App() {
       <header className="app-header">
         <div className="branding">
           <img src={viteLogo} className="logo" alt="Vite logo" />
-          {isHome ? (
-            <div className="home-branding">
-              <h1 className="home-title">目標と記録</h1>
-              <div className="home-sub">日々の目標と記録をつける</div>
-            </div>
-          ) : (
-            <input className="title-input" value={title} onChange={onChangeTitle} />
-          )}
+          <div className="home-branding">
+            <h1 className="home-title">目標と記録</h1>
+            <div className="home-sub">日々の目標と記録をつける</div>
+          </div>
         </div>
         <nav className="header-nav">
           <Link to="/" className="nav-link">Home</Link>

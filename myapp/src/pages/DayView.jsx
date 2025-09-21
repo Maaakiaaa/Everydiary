@@ -33,7 +33,7 @@ export default function DayView({ items = [], onToggle = () => {}, onAdd = () =>
     <section className="day-card">
       <div className="card-header">
         <div style={{display:'flex',gap:16,alignItems:'center'}}>
-          <h2>目標</h2>
+          <h2>目標一覧</h2>
           <input type="date" className="date-picker" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
         </div>
         <div className="card-actions">
