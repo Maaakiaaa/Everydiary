@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  max-width: 1400px; /* increase overall content width so header card can appear larger */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.2rem;
   text-align: center;
 }
 
@@ -49,13 +49,21 @@ body{
 
 .app-root{min-height:100vh;display:flex;flex-direction:column}
 
-.app-header{display:flex;justify-content:space-between;align-items:center;padding:36px 0;background:linear-gradient(90deg,#fff,#fff);box-shadow:var(--shadow);overflow:hidden}
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:48px 0;background:linear-gradient(90deg,#fff,#fff);box-shadow:0 12px 30px rgba(20,20,40,0.08);overflow:hidden;border-radius:12px;margin:18px 40px}
 .header-inner{margin-left:160px;margin-right:40px;padding:0;display:flex;justify-content:space-between;align-items:center;box-sizing:border-box}
 .branding{display:flex;align-items:center;gap:20px}
+.header-nav{display:flex;gap:18px;margin-left:24px}
+.nav-link{color:inherit;text-decoration:none;font-weight:600}
 .branding .logo{width:64px;height:64px}
 .header-right .logo.react{width:40px;opacity:0.95}
 .app-header h1{font-size:28px;margin:0}
 .title-input{font-size:40px;border:none;background:transparent;font-weight:700;line-height:1}
+.home-title{font-size:64px;margin:0;font-weight:900;line-height:1;/* gradient text */background:linear-gradient(90deg,#6b5bff,#ff7ba2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.home-sub{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* Home branding block to create a modern title layout */
+.home-branding{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:12px 30px}
+.home-branding .home-title{letter-spacing:0.6px}
 .title-input:focus{outline:none}
 
 .layout{display:flex;flex:1;overflow:hidden}
@@ -70,6 +78,11 @@ body{
 .card-header{display:flex;justify-content:space-between;align-items:center;padding:28px 30px;border-bottom:1px solid rgba(0,0,0,0.04)}
 .card-header h2{margin:0;font-size:20px}
 .card-actions .add-btn{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:12px;cursor:pointer;font-size:16px}
+
+.date-picker{border:1px solid rgba(0,0,0,0.06);padding:8px;border-radius:8px}
+.add-inline{display:flex;gap:8px;align-items:center}
+.small-input{padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+.small-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px}
 
 .card-body{padding:22px 30px}
 .items{display:flex;flex-direction:column;gap:18px}
@@ -91,6 +104,7 @@ body{
 @media (max-width:1024px){
   .app-header{padding:24px 40px}
   .title-input{font-size:72px}
+  .home-title{font-size:52px}
   .sidebar{width:120px}
   .main{padding:28px}
   .day-card{max-width:900px}
@@ -101,6 +115,8 @@ body{
   .day-card{margin:12px;border-radius:10px}
   .app-header{padding:16px 20px}
   .title-input{font-size:28px}
+  .home-title{font-size:32px;text-align:center}
+  .home-branding{align-items:center;padding:0}
 }
 
 /* small helper styles used in dev */

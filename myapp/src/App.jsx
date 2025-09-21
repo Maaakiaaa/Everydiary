@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Home from './pages/Home'
+import DayView from './pages/DayView'
+import Settings from './pages/Settings'
 
 function DayItem({ item, onToggle }) {
   return (
@@ -48,70 +52,80 @@ function App() {
     }
   }
 
-  const [items, setItems] = useState([
-    { id: 1, title: '出社・仕事', note: '朝礼とメール確認', time: '09:00', done: false },
-    { id: 2, title: 'ランチの買い出し', note: '', time: '12:10', done: true },
-    { id: 3, title: '勉強: React レイアウト', note: 'UI ワイヤーに合わせる', time: '20:00', done: false },
-  ])
+  // items now include a `date` field in ISO YYYY-MM-DD format
+  const [items, setItems] = useState(() => {
+    const today = new Date().toISOString().slice(0, 10)
+    return [
+      { id: 1, title: '出社・仕事', note: '朝礼とメール確認', time: '09:00', date: today, done: false },
+      { id: 2, title: 'ランチの買い出し', note: '', time: '12:10', date: today, done: true },
+      { id: 3, title: '勉強: React レイアウト', note: 'UI ワイヤーに合わせる', time: '20:00', date: today, done: false },
+    ]
+  })
 
   function toggleDone(id) {
     setItems((prev) => prev.map((it) => (it.id === id ? { ...it, done: !it.done } : it)))
   }
 
-  function addItem() {
+  // addItem accepts title, time and date (YYYY-MM-DD)
+  function addItem(title = '新しい出来事', time = '00:00', date = new Date().toISOString().slice(0, 10)) {
     const nextId = Math.max(0, ...items.map((i) => i.id)) + 1
-    setItems((prev) => [{ id: nextId, title: '新しい出来事', note: '', time: '00:00', done: false }, ...prev])
+    const newItem = { id: nextId, title, note: '', time, date, done: false }
+    setItems((prev) => [newItem, ...prev])
   }
 
-  return (
-    <div className="app-root">
+  function deleteItem(id) {
+    setItems((prev) => prev.filter((it) => it.id !== id))
+  }
+
+  function editItem(id, patch) {
+    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, ...patch } : it)))
+  }
+
+  // Small Header component that can use the router location hook
+  function AppHeader({ title, onChangeTitle }) {
+    const location = useLocation()
+    const isHome = location.pathname === '/'
+    const todayLabel = new Date().toLocaleDateString()
+
+    return (
       <header className="app-header">
         <div className="branding">
           <img src={viteLogo} className="logo" alt="Vite logo" />
-          <input className="title-input" value={title} onChange={onChangeTitle} />
+          {isHome ? (
+            <div className="home-branding">
+              <h1 className="home-title">目標と記録</h1>
+              <div className="home-sub">日々の目標と記録をつける</div>
+            </div>
+          ) : (
+            <input className="title-input" value={title} onChange={onChangeTitle} />
+          )}
         </div>
+        <nav className="header-nav">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/day" className="nav-link">Today</Link>
+          <Link to="/settings" className="nav-link">Settings</Link>
+        </nav>
         <div className="header-right">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </div>
       </header>
+    )
+  }
 
-      <div className="layout">
-        <aside className="sidebar">
-          <div className="day-list">
-            {days.map((d) => (
-              <button key={d.id} className={`day-btn ${selectedDay === d.id ? 'active' : ''}`} onClick={() => setSelectedDay(d.id)}>
-                {d.label}
-              </button>
-            ))}
-          </div>
-        </aside>
+  return (
+    <BrowserRouter>
+      <div className="app-root">
+        <AppHeader title={title} onChangeTitle={onChangeTitle} />
 
         <main className="main">
-          <section className="day-card">
-            <div className="card-header">
-              <h2>今日の出来事</h2>
-              <div className="card-actions">
-                <button className="add-btn" onClick={addItem}>＋ 追加</button>
-              </div>
-            </div>
-
-            <div className="card-body">
-              {items.length === 0 ? (
-                <div className="empty">この日は記録がありません</div>
-              ) : (
-                <div className="items">
-                  {items.map((it) => (
-                    <DayItem key={it.id} item={it} onToggle={toggleDone} />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="card-footer">下にスワイプで過去／未来を確認</div>
-          </section>
+          <Routes>
+            <Route path="/" element={<Home items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
+            <Route path="/day" element={<DayView items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
         </main>
       </div>
-    </div>
+    </BrowserRouter>
   )
 }
 
