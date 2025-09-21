@@ -6,6 +6,7 @@ import './App.css'
 import Home from './pages/Home'
 import DayView from './pages/DayView'
 import Settings from './pages/Settings'
+import Episode from './pages/Episode'
 
 function DayItem({ item, onToggle }) {
   return (
@@ -103,6 +104,9 @@ function App() {
           <Link to="/day" className="nav-link">
             <img src="/public/Plus circle.png" alt="Plus circle" style={{ width: '24px', height: '24px' }} />
           </Link>
+          <Link to="/episode" className="nav-link">
+            <img src="/public/comment.png" alt="Episode" style={{ width: '24px', height: '24px' }} />
+          </Link>
           <Link to="/settings" className="nav-link">
             <img src="/public/settig.png" alt="Settings" style={{ width: '24px', height: '24px' }} />
           </Link>
@@ -123,6 +127,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
             <Route path="/day" element={<DayView items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
+            <Route path="/episode" element={<Episode />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>
