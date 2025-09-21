@@ -97,9 +97,15 @@ function App() {
           </div>
         </div>
         <nav className="header-nav">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/day" className="nav-link">Today</Link>
-          <Link to="/settings" className="nav-link">Settings</Link>
+          <Link to="/" className="nav-link">
+           <img src="/public/Home.png" alt="Home" style={{ width: '24px', height: '24px' }} />
+          </Link>
+          <Link to="/day" className="nav-link">
+            <img src="/public/Plus circle.png" alt="Plus circle" style={{ width: '24px', height: '24px' }} />
+          </Link>
+          <Link to="/settings" className="nav-link">
+            <img src="/public/settig.png" alt="Settings" style={{ width: '24px', height: '24px' }} />
+          </Link>
         </nav>
         <div className="header-right">
           <img src={reactLogo} className="logo react" alt="React logo" />
