@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -15,7 +15,7 @@ function DayItem({ item, onToggle }) {
         <div className="title">{item.title}</div>
         {item.note && <div className="note">{item.note}</div>}
       </div>
-      <div className="meta">{item.time}</div>
+      <div className="meta">{item.date}</div>
     </div>
   )
 }
@@ -52,24 +52,33 @@ function App() {
     }
   }
 
-  // items now include a `date` field in ISO YYYY-MM-DD format
+  // items persisted to localStorage under key 'everydiary:items'
   const [items, setItems] = useState(() => {
-    const today = new Date().toISOString().slice(0, 10)
-    return [
-      { id: 1, title: '出社・仕事', note: '朝礼とメール確認', time: '09:00', date: today, done: false },
-      { id: 2, title: 'ランチの買い出し', note: '', time: '12:10', date: today, done: true },
-      { id: 3, title: '勉強: React レイアウト', note: 'UI ワイヤーに合わせる', time: '20:00', date: today, done: false },
-    ]
+    try {
+      const raw = localStorage.getItem('everydiary:items')
+      if (raw) return JSON.parse(raw)
+    } catch (e) {
+      // ignore parse errors
+    }
+    return []
   })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('everydiary:items', JSON.stringify(items))
+    } catch (e) {
+      // ignore
+    }
+  }, [items])
 
   function toggleDone(id) {
     setItems((prev) => prev.map((it) => (it.id === id ? { ...it, done: !it.done } : it)))
   }
 
-  // addItem accepts title, time and date (YYYY-MM-DD)
-  function addItem(title = '新しい出来事', time = '00:00', date = new Date().toISOString().slice(0, 10)) {
+  // addItem accepts title and date (YYYY-MM-DD); time removed
+  function addItem(title = '新しい出来事', date = new Date().toISOString().slice(0, 10)) {
     const nextId = Math.max(0, ...items.map((i) => i.id)) + 1
-    const newItem = { id: nextId, title, note: '', time, date, done: false }
+    const newItem = { id: nextId, title, note: '', date, done: false }
     setItems((prev) => [newItem, ...prev])
   }
 
@@ -121,7 +130,7 @@ function App() {
 
         <main className="main">
           <Routes>
-            <Route path="/" element={<Home items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
+            <Route path="/" element={<Home items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} showAdd={false} showRemaining={true} listAll={true} showDatePicker={false} />} />
             <Route path="/day" element={<DayView items={items} onToggle={toggleDone} onAdd={addItem} onDelete={deleteItem} onEdit={editItem} />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>

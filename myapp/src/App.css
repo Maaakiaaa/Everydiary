@@ -80,6 +80,7 @@ body{
 .card-actions .add-btn{background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:12px;cursor:pointer;font-size:16px}
 
 .date-picker{border:1px solid rgba(0,0,0,0.06);padding:8px;border-radius:8px}
+.date-display{border:1px solid rgba(0,0,0,0.06);padding:8px;border-radius:8px;background:#fff}
 .add-inline{display:flex;gap:8px;align-items:center}
 .small-input{padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
 .small-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px}
@@ -93,6 +94,9 @@ body{
 .day-item .title{font-weight:700;font-size:20px;text-align:center}
 .day-item .note{font-size:14px;color:var(--muted);margin-top:6px;text-align:center}
 .day-item .meta{margin-left:18px;color:var(--muted);font-size:14px}
+
+.days-remaining{display:inline-block;margin-left:10px;color:#e64b4b;font-weight:700}
+.day-item .meta .time{color:var(--muted);margin-right:8px}
 
 .card-footer{padding:18px 30px;border-top:1px solid rgba(0,0,0,0.04);font-size:14px;color:var(--muted)}
 
